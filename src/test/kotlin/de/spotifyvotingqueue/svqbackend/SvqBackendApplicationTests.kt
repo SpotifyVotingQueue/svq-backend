@@ -10,10 +10,4 @@ class SvqBackendApplicationTests {
 	@Test
 	fun contextLoads() {
 	}
-
-	@Test
-	fun failTest() {
-		fail("This should make the CI pipeline red");
-	}
-
 }
