@@ -3,11 +3,11 @@ SVQ Spring Boot Kotlin Backend
 
 ## Run locally
 
-Prerequisites: Create a Spotify app on https://developer.spotify.com/dashboard/applications
+Prerequisites: Create a Spotify app on https://developer.spotify.com/dashboard/applications and add `http://localhost:8080/login/oauth2/code/spotify` to its redirect URIs.
 
 Use its clientId and clientSecret in the application `spring.security.oauth2.client.registration.spotify.client-id` and 
 `spring.security.oauth2.client.registration.spotify.client-secret` properties, respectively. 
-(Note that you don't actually need to provide them in the application.yml, you could also override them using command line arguments)
+(Note that you don't actually need to provide them in the application.yml, you could also override them using environment variables or command-line arguments)
 
 After that, the app can by navigating to the top-level folder `svq-backend` and executing the following command:
 
