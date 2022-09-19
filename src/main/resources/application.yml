@@ -16,6 +16,16 @@ spring:
             token-uri: https://accounts.spotify.com/api/token
             user-info-uri: https://api.spotify.com/v1/me
             user-name-attribute: display_name
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: abcd
 springdoc:
   swagger-ui:
     path: /api/v1/swagger
