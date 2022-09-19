@@ -10,6 +10,7 @@ import javax.persistence.Table
 @Table(name = "party")
 class PartyEntity(
     @GeneratedValue @Id var partyId: UUID? = null,
+    val code: String,
     val hostAccessToken: String,
     val hostRefreshToken: String,
 )
