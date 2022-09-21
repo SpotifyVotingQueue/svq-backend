@@ -5,8 +5,8 @@ spring:
         registration:
           spotify:
             provider: spotify-provider
-            client-id: ca18bc1db5e64e57bf1be3704623548f
-            client-secret: 6cb32e956b6f4e7d86eec33d407fd9db
+            client-id: <enter your client-id here>
+            client-secret: <enter your client-secret here>
             client-authentication-method: basic
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
