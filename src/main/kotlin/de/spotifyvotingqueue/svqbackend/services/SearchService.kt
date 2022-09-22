@@ -33,17 +33,12 @@ class SearchService {
                         .asList();
         }
 
-        fun getTrackById(id: String): Track {
+        fun getUsersFavoriteSongs(): List<Track> {
                 return SpotifyApiBuilder.spotifyApi
-                        .getTrack(id)
+                        .usersTopTracks
                         .build()
-                        .execute();
-        }
-
-        fun getTracksForPlaylistSimplified(playlistSimplified: PlaylistSimplified): Paging<PlaylistTrack> {
-                return SpotifyApiBuilder.spotifyApi
-                        .getPlaylistsItems(playlistSimplified.id)
-                        .build()
-                        .execute();
+                        .execute()
+                        .items
+                        .asList()
         }
 }
