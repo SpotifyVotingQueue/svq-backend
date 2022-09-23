@@ -29,6 +29,7 @@ dependencies {
 	implementation("com.neovisionaries:nv-i18n:1.29")
 	implementation("com.google.code.gson:gson:2.9.1")
 	implementation("se.michaelthelin.spotify:spotify-web-api-java:7.2.0")
+	runtimeOnly("org.postgresql:postgresql")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
