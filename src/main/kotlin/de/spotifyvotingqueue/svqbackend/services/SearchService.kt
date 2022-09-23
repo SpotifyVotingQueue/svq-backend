@@ -16,7 +16,7 @@ import se.michaelthelin.spotify.requests.data.tracks.GetTrackRequest
 class SearchService {
 
         fun searchForSong(songName: String): List<Track>  {
-                return SpotifyApiBuilder.spotifyApi
+                return SpotifyApiBuilder.getInstance().spotifyApi
                         .searchTracks(songName)
                         .build()
                         .execute()
@@ -25,7 +25,7 @@ class SearchService {
         }
 
         fun searchForPlaylistSimplified(playlistName: String): List<PlaylistSimplified> {
-                return SpotifyApiBuilder.spotifyApi
+                return SpotifyApiBuilder.getInstance().spotifyApi
                         .searchPlaylists(playlistName)
                         .build()
                         .execute()
@@ -34,7 +34,7 @@ class SearchService {
         }
 
         fun getUsersFavoriteSongs(): List<Track> {
-                return SpotifyApiBuilder.spotifyApi
+                return SpotifyApiBuilder.getInstance().spotifyApi
                         .usersTopTracks
                         .build()
                         .execute()

@@ -12,7 +12,7 @@ import java.util.*
 class PlaylistService {
 
     fun getUsers4FavoritePartyPlaylists(): List<PlaylistSimplified> {
-        val playlists = SpotifyApiBuilder.spotifyApi
+        val playlists = SpotifyApiBuilder.getInstance().spotifyApi
             .listOfCurrentUsersPlaylists
             .build()
             .execute()
@@ -35,14 +35,14 @@ class PlaylistService {
     }
 
     fun getTrackById(id: String): Track {
-        return SpotifyApiBuilder.spotifyApi
+        return SpotifyApiBuilder.getInstance().spotifyApi
             .getTrack(id)
             .build()
             .execute();
     }
 
     fun getTracksForPlaylistSimplified(playlistSimplified: PlaylistSimplified): Paging<PlaylistTrack> {
-        return SpotifyApiBuilder.spotifyApi
+        return SpotifyApiBuilder.getInstance().spotifyApi
             .getPlaylistsItems(playlistSimplified.id)
             .build()
             .execute();

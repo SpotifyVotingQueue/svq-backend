@@ -9,7 +9,7 @@ import se.michaelthelin.spotify.model_objects.specification.Track
 class MusicPlayerService {
 
     fun addTrackToQueue(trackId: String) {
-        SpotifyApiBuilder.spotifyApi
+        SpotifyApiBuilder.getInstance().spotifyApi
             .addItemToUsersPlaybackQueue(trackId)
             .build()
             .execute();
@@ -19,7 +19,7 @@ class MusicPlayerService {
         var uris = JsonArray().apply {
             add(track.uri)
         };
-        SpotifyApiBuilder.spotifyApi
+        SpotifyApiBuilder.getInstance().spotifyApi
             .startResumeUsersPlayback()
             .uris(uris)
             .build()
@@ -27,7 +27,7 @@ class MusicPlayerService {
     }
 
     fun skipCurrentTrack() {
-        SpotifyApiBuilder.spotifyApi
+        SpotifyApiBuilder.getInstance().spotifyApi
             .skipUsersPlaybackToNextTrack()
             .build()
             .execute();
