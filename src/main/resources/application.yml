@@ -29,3 +29,5 @@ spring:
 springdoc:
   swagger-ui:
     path: /api/v1/swagger
+  api-docs:
+    path: /api/v1/api-docs
