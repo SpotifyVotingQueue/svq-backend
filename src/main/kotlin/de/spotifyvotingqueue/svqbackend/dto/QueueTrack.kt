@@ -9,16 +9,16 @@ class QueueTrack {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    open var id: Long? = null;
+    val id: Long? = null;
 
     @Column(name = "track_id", nullable = false)
-    open var trackId: String = "";
+    val trackId: String;
 
     @Column(name = "upvotes", nullable = false)
-    open var upvotes: Int;
+    var upvotes: Int;
 
     @Column(name = "downvotes", nullable = false)
-    open var downvotes: Int;
+    var downvotes: Int;
 
     constructor(trackId: String) {
         this.trackId = trackId;
