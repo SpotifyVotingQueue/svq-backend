@@ -1,6 +1,5 @@
 package de.spotifyvotingqueue.svqbackend.services
 
-import de.spotifyvotingqueue.svqbackend.adapters.SpotifyApiConfig
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import se.michaelthelin.spotify.SpotifyApi

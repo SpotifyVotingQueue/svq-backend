@@ -1,4 +1,4 @@
-package de.spotifyvotingqueue.svqbackend.adapters
+package de.spotifyvotingqueue.svqbackend.config
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean

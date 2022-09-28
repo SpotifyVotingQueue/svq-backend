@@ -15,9 +15,4 @@ class SvqBackendApplicationTests {
 	fun contextLoads() {
 	}
 
-	@Test
-	fun searchSong() {
-		val song = searchService?.searchForSong("abcdefu");
-		assert(song?.isNotEmpty() ?: false);
-	}
 }
