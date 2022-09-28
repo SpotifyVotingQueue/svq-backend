@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient
+import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
@@ -27,7 +29,13 @@ class TestController {
         val authentication: Authentication = SecurityContextHolder.getContext().authentication
         val currentPrincipalName: String = authentication.name
         println("$currentPrincipalName is there!")
-        return "Hello, $currentPrincipalName"
+        return "Hello, $currentPrincipalName."
     }
 
+    @Operation(summary = "Steal the current user's secrets")
+    @GetMapping("/user/secrets")
+    @ResponseBody
+    fun secrets(@RegisteredOAuth2AuthorizedClient("spotify") authorizedClient: OAuth2AuthorizedClient): String {
+        return "hehe, your access token is ${authorizedClient.accessToken.tokenValue} and your refresh token is ${authorizedClient.refreshToken?.tokenValue}"
+    }
 }
