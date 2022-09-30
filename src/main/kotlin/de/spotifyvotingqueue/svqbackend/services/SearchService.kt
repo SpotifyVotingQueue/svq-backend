@@ -21,6 +21,13 @@ class SearchService {
                         .asList();
         }
 
+        fun getSong(songId: String): Track {
+                return spotifyApi
+                        .getTrack(songId)
+                        .build()
+                        .execute();
+        }
+
         fun searchForPlaylistSimplified(playlistName: String): List<PlaylistSimplified> {
                 return spotifyApi
                         .searchPlaylists(playlistName)
