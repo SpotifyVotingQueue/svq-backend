@@ -1,8 +1,8 @@
 package de.spotifyvotingqueue.svqbackend.controllers
 
-import de.spotifyvotingqueue.svqbackend.database.PartyEntity
+import de.spotifyvotingqueue.svqbackend.database.model.PartyEntity
 import de.spotifyvotingqueue.svqbackend.database.PartyJpaRepository
-import de.spotifyvotingqueue.svqbackend.dto.PartyCreatedDto
+import de.spotifyvotingqueue.svqbackend.dtos.PartyCreatedDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient

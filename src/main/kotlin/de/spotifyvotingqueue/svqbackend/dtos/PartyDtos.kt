@@ -1,4 +1,4 @@
-package de.spotifyvotingqueue.svqbackend.dto
+package de.spotifyvotingqueue.svqbackend.dtos
 
 data class PartyCreatedDto (
     val joinCode: String,
