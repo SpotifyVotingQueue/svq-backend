@@ -4,17 +4,16 @@ import de.spotifyvotingqueue.svqbackend.dtos.TrackDto
 import de.spotifyvotingqueue.svqbackend.services.SearchService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.Authentication
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.HttpInputMessage
+import org.springframework.http.converter.ByteArrayHttpMessageConverter
+import org.springframework.web.bind.annotation.*
+import se.michaelthelin.spotify.model_objects.specification.Image
+import java.io.InputStream
+
 
 @RestController
 @RequestMapping("/api/v1")
-class SearchController {
+class TrackController {
 
     @Autowired
     private lateinit var searchService: SearchService;
@@ -26,6 +25,18 @@ class SearchController {
         return searchService
             .getSong(id)
             .let { TrackDto(it.id, it.name, it.artists.map { artist -> artist.name }) }
+    }
+
+    @Operation(summary = "Get cover art for a track")
+    @GetMapping("/track/{id}/cover")
+    @ResponseBody
+    fun getTrackCover(@PathVariable id: String, @RequestBody maxHeight: Int, @RequestBody minHeight: Int): String {
+        return searchService
+            .getSong(id)
+            .album
+            .images
+            .first { image -> image.height in (minHeight + 1) until maxHeight }
+            .url;
     }
 
     @Operation(summary = "Search for tracks by name")

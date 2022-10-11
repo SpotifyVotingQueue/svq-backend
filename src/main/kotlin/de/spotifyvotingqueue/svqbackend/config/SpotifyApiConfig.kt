@@ -3,6 +3,8 @@ package de.spotifyvotingqueue.svqbackend.config
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.MediaType
+import org.springframework.http.converter.ByteArrayHttpMessageConverter
 import se.michaelthelin.spotify.SpotifyApi
 
 @Configuration
@@ -21,4 +23,5 @@ class SpotifyApiConfig {
             .setClientSecret(clientSecret)
             .build();
     }
+
 }
