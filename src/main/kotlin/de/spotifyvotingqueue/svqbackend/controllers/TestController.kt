@@ -1,7 +1,9 @@
 package de.spotifyvotingqueue.svqbackend.controllers
 
+import io.swagger.v3.core.util.Json
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
+import net.minidev.json.JSONArray
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient
@@ -20,7 +22,9 @@ class TestController {
     @ApiResponse(responseCode = "200", description = "Server is available - the server responds with \"pong\".")
     @GetMapping("/ping")
     @ResponseBody
-    fun ping() = "pong"
+    fun ping(): String {
+        return "pong"
+    }
 
     @Operation(summary = "Get information about the current user")
     @GetMapping("/user/me")
