@@ -27,6 +27,8 @@ class WebSecurityConfig {
                 authorize
                     .antMatchers(HttpMethod.OPTIONS, "/api/v1/**").permitAll()
                     .antMatchers("/api/v1/ping").permitAll()
+                    .antMatchers("/api/v1/swagger-ui/**").permitAll()
+                    .antMatchers("/api/v1/api-docs/**").permitAll()
                     .antMatchers("/api/v1/user/**").authenticated()
                     .anyRequest().authenticated() // for now
             }

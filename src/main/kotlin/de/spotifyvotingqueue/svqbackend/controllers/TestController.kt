@@ -1,5 +1,6 @@
 package de.spotifyvotingqueue.svqbackend.controllers
 
+import de.spotifyvotingqueue.svqbackend.dtos.Href
 import de.spotifyvotingqueue.svqbackend.dtos.TextDto
 import de.spotifyvotingqueue.svqbackend.dtos.UserDto
 import io.swagger.v3.core.util.Json
@@ -35,7 +36,7 @@ class TestController {
         val authentication: Authentication = SecurityContextHolder.getContext().authentication
         val currentPrincipalName: String = authentication.name
         println("$currentPrincipalName is there!")
-        return UserDto(currentPrincipalName)
+        return UserDto(currentPrincipalName, Href("COMING SOON"))
     }
 
     @Operation(summary = "Steal the current user's secrets")
