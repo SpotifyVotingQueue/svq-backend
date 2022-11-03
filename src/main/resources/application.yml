@@ -1,33 +1,33 @@
 spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          spotify:
-            provider: spotify-provider
-            client-id: <client-id>
-            client-secret: <client-secret>
-            client-authentication-method: basic
-            authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-        provider:
-          spotify-provider:
-            authorization-uri: https://accounts.spotify.com/authorize
-            token-uri: https://accounts.spotify.com/api/token
-            user-info-uri: https://api.spotify.com/v1/me
-            user-name-attribute: display_name
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: none
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: abcd
+    security:
+        oauth2:
+            client:
+                registration:
+                    spotify:
+                        provider: spotify-provider
+                        client-id: <client-id>
+                        client-secret: <client-secret>
+                        client-authentication-method: basic
+                        authorization-grant-type: authorization_code
+                        redirect-uri: "{baseUrl}/api/v1/loggedIn/redirect"
+                provider:
+                    spotify-provider:
+                        authorization-uri: https://accounts.spotify.com/authorize
+                        token-uri: https://accounts.spotify.com/api/token
+                        user-info-uri: https://api.spotify.com/v1/me
+                        user-name-attribute: display_name
+    jpa:
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+            ddl-auto: none
+    datasource:
+        url: jdbc:postgresql://localhost:5432/postgres
+        username: postgres
+        password: abcd
 springdoc:
-  swagger-ui:
-    path: /api/v1/swagger
-  api-docs:
-    path: /api/v1/api-docs
+    swagger-ui:
+        path: /api/v1/swagger
+    api-docs:
+        path: /api/v1/api-docs
