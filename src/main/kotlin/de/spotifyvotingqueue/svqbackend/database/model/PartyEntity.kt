@@ -5,8 +5,10 @@ import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
+import javax.persistence.OneToOne
 import javax.persistence.Table
 
 @Entity
@@ -14,10 +16,13 @@ import javax.persistence.Table
 class PartyEntity(
     @Column val code: String,
     @Column val hostAccessToken: String,
-    @Column val hostRefreshToken: String,
 ) {
     @GeneratedValue @Id var partyId: UUID? = null;
     @OneToMany(mappedBy = "partyEntity") var queueTracks: List<QueueTrack> = emptyList()
+
+    @OneToOne
+    @JoinColumn(name = "access_entity_access_token")
+    open var accessEntity: AccessEntity? = null;
 
     fun addTrack(trackId: String) {
         queueTracks += QueueTrack(trackId, this)

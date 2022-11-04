@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClient
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import kotlin.random.Random
 
@@ -18,11 +19,10 @@ class PartyController @Autowired constructor(
 ) {
 
     @PostMapping
-    fun create(@RegisteredOAuth2AuthorizedClient("spotify") authorizedClient: OAuth2AuthorizedClient): PartyCreatedDto {
+    fun create(@RequestParam("accesscode") accesscode: String): PartyCreatedDto {
         val party = PartyEntity(
             code = generatePartyCode(),
-            hostAccessToken = authorizedClient.accessToken.tokenValue,
-            hostRefreshToken = authorizedClient.refreshToken!!.tokenValue,
+            hostAccessToken = accesscode,
         )
         val createdParty = partyJpaRepository.save(party);
         return PartyCreatedDto(createdParty.code)

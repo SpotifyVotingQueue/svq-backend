@@ -1,6 +1,8 @@
 package de.spotifyvotingqueue.svqbackend.controllers
 
 import antlr.Token
+import de.spotifyvotingqueue.svqbackend.database.AccessJpaRepository
+import de.spotifyvotingqueue.svqbackend.database.model.AccessEntity
 import de.spotifyvotingqueue.svqbackend.dtos.Href
 import de.spotifyvotingqueue.svqbackend.dtos.TokenResponseDto
 import de.spotifyvotingqueue.svqbackend.dtos.UserDto
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.RestTemplate
 import java.net.URI
+import java.time.LocalDateTime
 import java.util.*
 
 @RestController
@@ -32,6 +35,9 @@ class OAuthController {
 
     @Value("\${spring.security.oauth2.client.registration.spotify.client-secret}")
     private val clientSecret: String? = null;
+
+    @Autowired
+    private val accessrepository: AccessJpaRepository? = null;
 
     @Operation(summary = "Login")
     @GetMapping("/login")
@@ -62,6 +68,12 @@ class OAuthController {
             ),
             TokenResponseDto::class.java
         )
+        AccessEntity(
+            response.body!!.access_token,
+            response.body!!.refresh_token,
+            response.body!!.expires_in,
+            LocalDateTime.now()
+        ).let { accessrepository!!.save(it) }
 
         var uri: URI = URI.create("http://localhost:3000/login?token=${response.body?.access_token}&refresh_token=${response.body?.refresh_token}");
         var headers: HttpHeaders = HttpHeaders();
