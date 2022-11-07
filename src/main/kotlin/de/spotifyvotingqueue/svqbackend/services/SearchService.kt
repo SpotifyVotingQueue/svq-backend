@@ -9,10 +9,18 @@ import se.michaelthelin.spotify.model_objects.specification.Track
 @Service
 class SearchService {
 
+        private val logger = org.slf4j.LoggerFactory.getLogger(SearchService::class.java);
+
         @Autowired
         lateinit var spotifyApi: SpotifyApi;
 
+        @Autowired
+        private val accessToken: String? = null;
+
         fun searchForSong(songName: String): List<Track>  {
+                logger.info("Client ID: " + spotifyApi.clientId);
+                logger.info("Client Secret: " + spotifyApi.clientSecret);
+                spotifyApi.accessToken = accessToken;
                 return spotifyApi
                         .searchTracks(songName)
                         .build()

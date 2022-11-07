@@ -3,13 +3,16 @@ package de.spotifyvotingqueue.svqbackend.controllers
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient
+import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 
 @RestController
@@ -30,6 +33,11 @@ class TestController {
         val currentPrincipalName: String = authentication.name
         println("$currentPrincipalName is there!")
         return "Hello, $currentPrincipalName."
+    }
+
+    @RequestMapping("/user")
+    fun user(@AuthenticationPrincipal principal: OAuth2User): Map<String?, Any?>? {
+        return Collections.singletonMap("name", principal.getAttribute("display_name"))
     }
 
     @Operation(summary = "Steal the current user's secrets")
