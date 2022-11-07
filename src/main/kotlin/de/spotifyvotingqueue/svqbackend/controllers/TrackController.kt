@@ -4,11 +4,7 @@ import de.spotifyvotingqueue.svqbackend.dtos.TrackDto
 import de.spotifyvotingqueue.svqbackend.services.SearchService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpInputMessage
-import org.springframework.http.converter.ByteArrayHttpMessageConverter
 import org.springframework.web.bind.annotation.*
-import se.michaelthelin.spotify.model_objects.specification.Image
-import java.io.InputStream
 
 
 @RestController
