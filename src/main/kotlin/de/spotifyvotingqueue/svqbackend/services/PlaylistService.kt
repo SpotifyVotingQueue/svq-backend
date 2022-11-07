@@ -14,7 +14,13 @@ class PlaylistService {
     @Autowired
     lateinit var spotifyApi: SpotifyApi;
 
+    @Autowired
+    lateinit var accessService: AccessTokenService;
+
     fun getTrackById(id: String): Track {
+        val token = accessService.getNewestAccessEntity();
+        spotifyApi.accessToken = token.access_token;
+        spotifyApi.refreshToken = token.refresh_token;
         return spotifyApi
             .getTrack(id)
             .build()
@@ -22,6 +28,9 @@ class PlaylistService {
     }
 
     fun getTracksForPlaylistSimplified(playlistSimplified: PlaylistSimplified): Paging<PlaylistTrack> {
+        val token = accessService.getNewestAccessEntity();
+        spotifyApi.accessToken = token.access_token;
+        spotifyApi.refreshToken = token.refresh_token;
         return spotifyApi
             .getPlaylistsItems(playlistSimplified.id)
             .build()

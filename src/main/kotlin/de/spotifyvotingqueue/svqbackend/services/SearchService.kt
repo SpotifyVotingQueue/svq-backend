@@ -1,5 +1,6 @@
 package de.spotifyvotingqueue.svqbackend.services
 
+import de.spotifyvotingqueue.svqbackend.database.AccessJpaRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import se.michaelthelin.spotify.SpotifyApi
@@ -15,12 +16,14 @@ class SearchService {
         lateinit var spotifyApi: SpotifyApi;
 
         @Autowired
-        private val accessToken: String? = null;
+        lateinit var accessService: AccessTokenService;
 
         fun searchForSong(songName: String): List<Track>  {
                 logger.info("Client ID: " + spotifyApi.clientId);
                 logger.info("Client Secret: " + spotifyApi.clientSecret);
-                spotifyApi.accessToken = accessToken;
+                val token = accessService.getNewestAccessEntity();
+                spotifyApi.accessToken = token.access_token;
+                spotifyApi.refreshToken = token.refresh_token;
                 return spotifyApi
                         .searchTracks(songName)
                         .build()
@@ -37,6 +40,9 @@ class SearchService {
         }
 
         fun searchForPlaylistSimplified(playlistName: String): List<PlaylistSimplified> {
+                val token = accessService.getNewestAccessEntity();
+                spotifyApi.accessToken = token.access_token;
+                spotifyApi.refreshToken = token.refresh_token;
                 return spotifyApi
                         .searchPlaylists(playlistName)
                         .build()
@@ -46,6 +52,9 @@ class SearchService {
         }
 
         fun getUsersFavoriteSongs(): List<Track> {
+                val token = accessService.getNewestAccessEntity();
+                spotifyApi.accessToken = token.access_token;
+                spotifyApi.refreshToken = token.refresh_token;
                 return spotifyApi
                         .usersTopTracks
                         .build()

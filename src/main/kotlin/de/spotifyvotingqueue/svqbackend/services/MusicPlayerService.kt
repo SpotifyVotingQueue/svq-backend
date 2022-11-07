@@ -12,7 +12,13 @@ class MusicPlayerService {
     @Autowired
     lateinit var spotifyApi: SpotifyApi;
 
+    @Autowired
+    lateinit var accessService: AccessTokenService;
+
     fun addTrackToQueue(trackId: String) {
+        val token = accessService.getNewestAccessEntity();
+        spotifyApi.accessToken = token.access_token;
+        spotifyApi.refreshToken = token.refresh_token;
         spotifyApi
             .addItemToUsersPlaybackQueue(trackId)
             .build()
@@ -23,6 +29,9 @@ class MusicPlayerService {
         var uris = JsonArray().apply {
             add(track.uri)
         };
+        val token = accessService.getNewestAccessEntity();
+        spotifyApi.accessToken = token.access_token;
+        spotifyApi.refreshToken = token.refresh_token;
         spotifyApi
             .startResumeUsersPlayback()
             .uris(uris)
@@ -31,6 +40,9 @@ class MusicPlayerService {
     }
 
     fun skipCurrentTrack() {
+        val token = accessService.getNewestAccessEntity();
+        spotifyApi.accessToken = token.access_token;
+        spotifyApi.refreshToken = token.refresh_token;
         spotifyApi
             .skipUsersPlaybackToNextTrack()
             .build()

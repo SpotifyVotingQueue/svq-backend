@@ -4,10 +4,12 @@ import de.spotifyvotingqueue.svqbackend.database.model.AccessEntity
 import de.spotifyvotingqueue.svqbackend.database.model.PartyEntity
 import de.spotifyvotingqueue.svqbackend.database.model.QueueTrack
 import org.springframework.data.jpa.repository.JpaRepository
-import java.util.UUID
+import java.util.*
 
 interface PartyJpaRepository : JpaRepository<PartyEntity, UUID>
 
 interface QueueTrackJpaRepository : JpaRepository<QueueTrack, UUID>
 
-interface AccessJpaRepository : JpaRepository<AccessEntity, UUID>
+interface AccessJpaRepository : JpaRepository<AccessEntity, UUID> {
+    fun findFirstByOrderByCreatedeDesc(): AccessEntity?
+}

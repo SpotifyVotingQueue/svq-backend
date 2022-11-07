@@ -1,5 +1,4 @@
 spring:
-<<<<<<< HEAD
   security:
     oauth2:
       client:
@@ -7,10 +6,10 @@ spring:
           spotify:
             provider: spotify-provider
             client-id: c3b9eef23c9949dbb331d65e1433fd00
-            client-secret: 0489fe2bb8c04312b013463b3ff05a98
+            client-secret: 00ba7ebf12a24047bd990ecf700ee952
             client-authentication-method: basic
             authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            redirect-uri: "{baseUrl}/api/v1/loggedIn/redirect"
         provider:
           spotify-provider:
             authorization-uri: https://accounts.spotify.com/authorize
@@ -27,35 +26,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: abcd
-=======
-    security:
-        oauth2:
-            client:
-                registration:
-                    spotify:
-                        provider: spotify-provider
-                        client-id: <client-id>
-                        client-secret: <client-secret>
-                        client-authentication-method: basic
-                        authorization-grant-type: authorization_code
-                        redirect-uri: "{baseUrl}/api/v1/loggedIn/redirect"
-                provider:
-                    spotify-provider:
-                        authorization-uri: https://accounts.spotify.com/authorize
-                        token-uri: https://accounts.spotify.com/api/token
-                        user-info-uri: https://api.spotify.com/v1/me
-                        user-name-attribute: display_name
-    jpa:
-        properties:
-            hibernate:
-                dialect: org.hibernate.dialect.PostgreSQLDialect
-        hibernate:
-            ddl-auto: none
-    datasource:
-        url: jdbc:postgresql://localhost:5432/postgres
-        username: postgres
-        password: abcd
->>>>>>> b5af7af5cc4576fed79a8dabf662ba4e811c9462
 springdoc:
     swagger-ui:
         path: /api/v1/swagger
