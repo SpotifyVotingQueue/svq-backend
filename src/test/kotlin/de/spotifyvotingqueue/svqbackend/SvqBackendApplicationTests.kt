@@ -15,4 +15,16 @@ class SvqBackendApplicationTests {
 	fun contextLoads() {
 	}
 
+	@Test
+	fun testSearchForSong() {
+		val songName = "The Scientist";
+		val searchResult = searchService?.searchForSong(songName);
+		if (searchResult == null) {
+			fail("Search result is null");
+		}
+		if (searchResult.isEmpty()) {
+			fail("Search result is empty");
+		}
+	}
+
 }

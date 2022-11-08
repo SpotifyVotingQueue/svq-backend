@@ -7,6 +7,10 @@ import org.springframework.security.config.Customizer.withDefaults
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+
 
 @Configuration
 @EnableWebSecurity
@@ -16,12 +20,30 @@ class WebSecurityConfig {
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain =
         http
+            .csrf().disable()
+            .cors().configurationSource(corsConfigurationSource()).and()
             .authorizeHttpRequests { authorize ->
                 authorize
+                    .antMatchers(HttpMethod.OPTIONS, "/api/v1/**").permitAll()
+                    .antMatchers("/api/v1/ping").permitAll()
+                    .antMatchers("/api/v1/swagger-ui/**").permitAll()
+                    .antMatchers("/api/v1/api-docs/**").permitAll()
+                    .antMatchers("/api/v1/loggedIn/**").permitAll()
                     .antMatchers("/api/v1/user/**").authenticated()
                     .anyRequest().authenticated() // for now
             }
             .oauth2Login(withDefaults())
-            .cors().and().csrf().disable()
             .build()
+
+    @Bean
+    public fun corsConfigurationSource(): CorsConfigurationSource {
+        val configuration = CorsConfiguration()
+        configuration.allowedOrigins = listOf("*")
+        configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
+        configuration.allowedHeaders = listOf("*")
+        configuration.allowCredentials = false
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
+    }
 }

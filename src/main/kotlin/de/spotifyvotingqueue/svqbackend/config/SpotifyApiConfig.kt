@@ -1,9 +1,11 @@
 package de.spotifyvotingqueue.svqbackend.config
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import se.michaelthelin.spotify.SpotifyApi
+
 
 @Configuration
 class SpotifyApiConfig {
@@ -16,9 +18,11 @@ class SpotifyApiConfig {
 
     @Bean
     fun getSpotifyApi() : SpotifyApi {
-        return SpotifyApi.Builder()
+        return SpotifyApi.builder()
             .setClientId(clientId)
             .setClientSecret(clientSecret)
             .build();
     }
+
+
 }
