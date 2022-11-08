@@ -11,5 +11,5 @@ interface PartyJpaRepository : JpaRepository<PartyEntity, UUID>
 interface QueueTrackJpaRepository : JpaRepository<QueueTrack, UUID>
 
 interface AccessJpaRepository : JpaRepository<AccessEntity, UUID> {
-    fun findFirstByOrderByCreatedeDesc(): AccessEntity?
+    fun findFirstByOrderByCreatedDesc(): AccessEntity?
 }
