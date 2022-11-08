@@ -30,7 +30,7 @@ class AccessTokenService {
         newestToken.created.isBefore(LocalDateTime.now().minusMinutes((newestToken.expires_in / 60).toLong()))
 
     private fun refreshToken(code: String): AccessEntity {
-        if(oAuthController.redirect(code).statusCode.is2xxSuccessful) {
+        if(oAuthController.redirect(code, "").statusCode.is2xxSuccessful) {
             return accessRepository.findFirstByOrderByCreatedDesc()!!;
         }
         throw Exception("Could not refresh token");
