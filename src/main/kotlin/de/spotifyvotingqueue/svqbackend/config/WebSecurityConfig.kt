@@ -26,6 +26,7 @@ class WebSecurityConfig {
                 authorize
                     .anyRequest().permitAll() // for now
             }
+            .headers().frameOptions().disable().and()
             .oauth2Login(withDefaults())
             .build()
 

@@ -27,6 +27,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("com.google.code.gson:gson:2.10")
 	implementation("se.michaelthelin.spotify:spotify-web-api-java:7.2.2")
+	implementation("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
