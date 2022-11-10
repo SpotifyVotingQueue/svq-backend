@@ -37,3 +37,7 @@ springdoc:
     path: /api/v1/swagger
   api-docs:
     path: /api/v1/api-docs
+oauthcontroller:
+  params:
+    backend-url: http://localhost:8080
+    frontend-url: http://localhost:3000

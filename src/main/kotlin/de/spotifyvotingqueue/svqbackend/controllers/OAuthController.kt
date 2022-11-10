@@ -34,6 +34,12 @@ class OAuthController {
     @Value("\${spring.security.oauth2.client.provider.spotify-provider.authorization-uri}")
     private val authorizationUri: String? = null;
 
+    @Value("\${oauthcontroller.params.backend-url}")
+    private val backendUri: String? = null;
+
+    @Value("\${oauthcontroller.params.frontend-url}")
+    private val frontendUri: String? = null;
+
     @Autowired
     private val accessrepository: AccessJpaRepository? = null;
 
@@ -45,7 +51,7 @@ class OAuthController {
     fun login(@RequestParam("redirect") redirectUri: String, @RequestParam("session") session: String): ResponseEntity<Any> {
         RedirectEntity(redirectUri, session).let { redirectrepository.save(it) }
 
-        var redirectUriSpotify: String = "http://localhost:8080/api/v1/loggedIn/redirect";
+        var redirectUriSpotify: String = "${backendUri}/api/v1/loggedIn/redirect";
 
         var uri: URI = URI.create("${authorizationUri}?response_type=code&client_id=${clientId}&redirect_uri=${redirectUriSpotify}&state=${session}");
         var headers: HttpHeaders = HttpHeaders();
@@ -61,7 +67,7 @@ class OAuthController {
         var body: MultiValueMap<String, String>  = LinkedMultiValueMap();
         body.add("grant_type", "authorization_code");
         body.add("code", code);
-        body.add("redirect_uri", "http://localhost:8080/api/v1/loggedIn/redirect");
+        body.add("redirect_uri", "${backendUri}/api/v1/loggedIn/redirect");
 
         var tokenheaders: MultiValueMap<String, String>  = LinkedMultiValueMap();
         tokenheaders.add("Authorization", "Basic " + Base64.getEncoder().encodeToString(("$clientId:$clientSecret").toByteArray()));
@@ -86,7 +92,7 @@ class OAuthController {
 
         var redirectentity: RedirectEntity? = redirectrepository.findBySession(session);
 
-        var uri: URI = URI.create("http://localhost:3000/login?token=${response.body?.access_token}&redirect=${redirectentity?.uri}");
+        var uri: URI = URI.create("${frontendUri}/login?token=${response.body?.access_token}&redirect=${redirectentity?.uri}");
         var headers: HttpHeaders = HttpHeaders();
         headers.location = uri;
         return ResponseEntity<Any>(headers, org.springframework.http.HttpStatus.SEE_OTHER)

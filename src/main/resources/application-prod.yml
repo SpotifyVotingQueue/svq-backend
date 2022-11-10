@@ -9,7 +9,7 @@ spring:
             client-secret: ${SPOTIFY_CLIENT_SECRET}
             client-authentication-method: basic
             authorization-grant-type: authorization_code
-            redirect-uri: "https://svq-hipqueue.herokuapp.com/backend/api/v1/loggedIn/redirect"
+            redirect-uri: "https://svq-backend.herokuapp.com/api/v1/loggedIn/redirect"
         provider:
           spotify-provider:
             authorization-uri: https://accounts.spotify.com/authorize
@@ -39,3 +39,7 @@ springdoc:
     path: /api/v1/api-docs
 server:
   port: ${PORT}
+oauthcontroller:
+  params:
+    backend-url: https://svq-backend.herokuapp.com
+    frontend-url: http://localhost:3000 # for now, will be changed to the actual frontend url
