@@ -37,8 +37,14 @@ class OAuthController {
     @Value("\${oauthcontroller.params.backend-url}")
     private val backendUri: String? = null;
 
-    @Value("\${oauthcontroller.params.frontend-url}")
-    private val frontendUri: String? = null;
+    @Value("\${oauthcontroller.params.frontend-dev-url}")
+    private lateinit var frontendDevUri: String;
+
+    @Value("\${oauthcontroller.params.frontend-prod-url}")
+    private lateinit var  frontendProdUri: String;
+
+    @Value("\${oauthcontroller.isDev}")
+    private val isDev: String? = null;
 
     @Autowired
     private val accessrepository: AccessJpaRepository? = null;
@@ -91,7 +97,12 @@ class OAuthController {
         ).let { accessrepository!!.save(it) }
 
         var redirectentity: RedirectEntity? = redirectrepository.findBySession(session);
-
+        var frontendUri: String;
+        if (isDev == "true") {
+            frontendUri = frontendDevUri;
+        } else {
+            frontendUri = frontendProdUri;
+        }
         var uri: URI = URI.create("${frontendUri}/login?token=${response.body?.access_token}&redirect=${redirectentity?.uri}");
         var headers: HttpHeaders = HttpHeaders();
         headers.location = uri;

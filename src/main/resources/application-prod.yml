@@ -42,4 +42,6 @@ server:
 oauthcontroller:
   params:
     backend-url: https://svq-backend.herokuapp.com
-    frontend-url: http://localhost:3000 # for now, will be changed to the actual frontend url
+    frontend-dev-url: http://localhost:3000
+    frontend-prod-url: https://svq-hipqueue.herokuapp.com
+  isDev: ${IS_DEV}
