@@ -16,7 +16,7 @@ interface QueueTrackJpaRepository : JpaRepository<QueueTrack, UUID>
 
 interface AccessJpaRepository : JpaRepository<AccessEntity, UUID> {
     fun findFirstByOrderByCreatedDesc(): AccessEntity?
-    fun findByAccess_token(token: String): AccessEntity?
+    fun findByAccesstoken(token: String): AccessEntity?
 }
 
 interface RedirectJpaRepository : JpaRepository<RedirectEntity, UUID> {

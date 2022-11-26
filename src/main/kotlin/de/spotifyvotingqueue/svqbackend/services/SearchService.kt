@@ -22,8 +22,8 @@ class SearchService {
                 logger.info("Client ID: " + spotifyApi.clientId);
                 logger.info("Client Secret: " + spotifyApi.clientSecret);
                 val token = accessService.getMatchingToken(partyId);
-                spotifyApi.accessToken = token.access_token;
-                spotifyApi.refreshToken = token.refresh_token;
+                spotifyApi.accessToken = token.accesstoken;
+                spotifyApi.refreshToken = token.refreshtoken;
                 return spotifyApi
                         .searchTracks(songName)
                         .build()
@@ -41,8 +41,8 @@ class SearchService {
 
         fun searchForPlaylistSimplified(playlistName: String): List<PlaylistSimplified> {
                 val token = accessService.getNewestAccessEntity();
-                spotifyApi.accessToken = token.access_token;
-                spotifyApi.refreshToken = token.refresh_token;
+                spotifyApi.accessToken = token.accesstoken;
+                spotifyApi.refreshToken = token.refreshtoken;
                 return spotifyApi
                         .searchPlaylists(playlistName)
                         .build()
@@ -53,8 +53,8 @@ class SearchService {
 
         fun getUsersFavoriteSongs(): List<Track> {
                 val token = accessService.getNewestAccessEntity();
-                spotifyApi.accessToken = token.access_token;
-                spotifyApi.refreshToken = token.refresh_token;
+                spotifyApi.accessToken = token.accesstoken;
+                spotifyApi.refreshToken = token.refreshtoken;
                 return spotifyApi
                         .usersTopTracks
                         .build()
