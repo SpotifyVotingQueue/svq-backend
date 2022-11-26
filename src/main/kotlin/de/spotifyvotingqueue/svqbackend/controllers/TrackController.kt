@@ -3,6 +3,7 @@ package de.spotifyvotingqueue.svqbackend.controllers
 import de.spotifyvotingqueue.svqbackend.dtos.TrackDto
 import de.spotifyvotingqueue.svqbackend.services.SearchService
 import io.swagger.v3.oas.annotations.Operation
+import org.jetbrains.annotations.NotNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
@@ -20,7 +21,7 @@ class TrackController {
     fun getTrack(@PathVariable id: String): TrackDto {
         return searchService
             .getSong(id)
-            .let { TrackDto(it.id, it.name, it.artists.map { artist -> artist.name }) }
+            .let { TrackDto(it.id, it.name, it.artists.map { artist -> artist.name }, it.album.images[0].url) }
     }
 
     @Operation(summary = "Get cover art for a track")
@@ -38,9 +39,9 @@ class TrackController {
     @Operation(summary = "Search for tracks by name")
     @GetMapping("/search/{query}")
     @ResponseBody
-    fun searchTracks(@PathVariable query: String): List<TrackDto> {
+    fun searchTracks(@PathVariable query: String, @RequestParam @NotNull partyId: String): List<TrackDto> {
         return searchService
-            .searchForSong(query)
-            .map { TrackDto(it.id, it.name, it.artists.map { artist -> artist.name }) }
+            .searchForSong(query, partyId)
+            .map { TrackDto(it.id, it.name, it.artists.map { artist -> artist.name }, it.album.images[0].url) }
     }
 }

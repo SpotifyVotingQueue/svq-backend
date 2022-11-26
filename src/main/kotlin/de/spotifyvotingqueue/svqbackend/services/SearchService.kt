@@ -18,10 +18,10 @@ class SearchService {
         @Autowired
         lateinit var accessService: AccessTokenService;
 
-        fun searchForSong(songName: String): List<Track>  {
+        fun searchForSong(songName: String, partyId: String): List<Track>  {
                 logger.info("Client ID: " + spotifyApi.clientId);
                 logger.info("Client Secret: " + spotifyApi.clientSecret);
-                val token = accessService.getNewestAccessEntity();
+                val token = accessService.getMatchingToken(partyId);
                 spotifyApi.accessToken = token.access_token;
                 spotifyApi.refreshToken = token.refresh_token;
                 return spotifyApi

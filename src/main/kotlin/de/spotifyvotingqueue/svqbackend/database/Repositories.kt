@@ -7,12 +7,16 @@ import de.spotifyvotingqueue.svqbackend.database.model.RedirectEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
-interface PartyJpaRepository : JpaRepository<PartyEntity, UUID>
+interface PartyJpaRepository : JpaRepository<PartyEntity, UUID> {
+    fun findByCode(code: String): PartyEntity?
+    fun deleteByCode(partyId: String)
+}
 
 interface QueueTrackJpaRepository : JpaRepository<QueueTrack, UUID>
 
 interface AccessJpaRepository : JpaRepository<AccessEntity, UUID> {
     fun findFirstByOrderByCreatedDesc(): AccessEntity?
+    fun findByAccess_token(token: String): AccessEntity?
 }
 
 interface RedirectJpaRepository : JpaRepository<RedirectEntity, UUID> {

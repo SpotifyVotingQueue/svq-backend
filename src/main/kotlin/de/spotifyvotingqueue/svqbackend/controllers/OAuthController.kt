@@ -91,7 +91,7 @@ class OAuthController {
         )
         AccessEntity(
             response.body!!.access_token,
-            response.body!!.refresh_token,
+            response.body!!.refresh_token!!,
             response.body!!.expires_in,
             LocalDateTime.now()
         ).let { accessrepository!!.save(it) }
@@ -107,5 +107,32 @@ class OAuthController {
         var headers: HttpHeaders = HttpHeaders();
         headers.location = uri;
         return ResponseEntity<Any>(headers, org.springframework.http.HttpStatus.SEE_OTHER)
+    }
+
+    fun refreshToken(refreshToken: String): AccessEntity {
+        var body: MultiValueMap<String, String>  = LinkedMultiValueMap();
+        body.add("grant_type", "refresh_token");
+        body.add("refresh_token", refreshToken);
+
+        var tokenheaders: MultiValueMap<String, String>  = LinkedMultiValueMap();
+        tokenheaders.add("Authorization", "Basic " + Base64.getEncoder().encodeToString(("$clientId:$clientSecret").toByteArray()));
+        tokenheaders.add("Content-Type", "application/x-www-form-urlencoded");
+
+        var resttemplate: RestTemplate = RestTemplate();
+        var response: ResponseEntity<TokenResponseDto> = resttemplate.exchange(
+            URI("https://accounts.spotify.com/api/token"),
+            HttpMethod.POST,
+            HttpEntity(
+                body,
+                tokenheaders
+            ),
+            TokenResponseDto::class.java
+        )
+        return AccessEntity(
+            response.body!!.access_token,
+            refreshToken,
+            response.body!!.expires_in,
+            LocalDateTime.now()
+        )
     }
 }
