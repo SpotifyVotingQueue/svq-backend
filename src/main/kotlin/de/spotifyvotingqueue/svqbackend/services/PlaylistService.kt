@@ -36,4 +36,16 @@ class PlaylistService {
             .build()
             .execute();
     }
+
+    fun getFourPlaylists(partyId: String): List<PlaylistSimplified> {
+        val token = accessService.getMatchingToken(partyId);
+        spotifyApi.accessToken = token.accesstoken;
+        spotifyApi.refreshToken = token.refreshtoken;
+        return spotifyApi.listOfCurrentUsersPlaylists
+            .build()
+            .execute()
+            .items
+            .toList()
+            .take(4);
+    }
 }
