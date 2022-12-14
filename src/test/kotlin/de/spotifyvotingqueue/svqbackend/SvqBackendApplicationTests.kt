@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import java.util.UUID
 
 @SpringBootTest
 class SvqBackendApplicationTests {
@@ -19,7 +20,7 @@ class SvqBackendApplicationTests {
 	@Test
 	fun testSearchForSong() {
 		val songName = "The Scientist"
-		val searchResult = searchService?.searchForSong(songName)
+		val searchResult = searchService?.searchForSong(songName, UUID.fromString("0").toString())
 		if (searchResult == null) {
 			fail("Search result is null")
 		}

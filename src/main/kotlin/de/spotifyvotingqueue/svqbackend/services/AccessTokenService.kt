@@ -45,7 +45,7 @@ class AccessTokenService {
     private fun refreshToken(refreshToken: String, partyId: String): AccessEntity {
         val newAccess: AccessEntity = oAuthController.refreshToken(refreshToken);
         partyJpaRepository.deleteByCode(partyId);
-        partyJpaRepository.save(PartyEntity(partyId, newAccess.accesstoken!!));
+        partyJpaRepository.save(PartyEntity(partyId, newAccess.accesstoken));
         return newAccess;
     }
 

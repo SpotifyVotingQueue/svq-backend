@@ -17,8 +17,8 @@ class MusicPlayerService {
     lateinit var accessService: AccessTokenService
 
     fun addTrackToQueue(user: AccessEntity, trackId: String) {
-        spotifyApi.accessToken = user.access_token
-        spotifyApi.refreshToken = user.refresh_token
+        spotifyApi.accessToken = user.accesstoken
+        spotifyApi.refreshToken = user.refreshtoken
         spotifyApi
             .addItemToUsersPlaybackQueue(trackId)
             .build()
@@ -26,8 +26,8 @@ class MusicPlayerService {
     }
 
     fun getUsersQueue(user: AccessEntity): List<Track> {
-        spotifyApi.accessToken = user.access_token
-        spotifyApi.refreshToken = user.refresh_token
+        spotifyApi.accessToken = user.accesstoken
+        spotifyApi.refreshToken = user.refreshtoken
         return spotifyApi
             .theUsersQueue
             .build()
