@@ -21,8 +21,12 @@ class QueueService {
     @Autowired
     private lateinit var musicPlayerService: MusicPlayerService;
 
+    @Autowired
+    private lateinit var accessService: AccessTokenService;
+
     fun addTrackToQueue(party: PartyEntity, trackId: String) {
-        party.addTrack(trackId)
+        party.addTrack(trackId);
+        partyJpaRepository.save(party);
     }
 
     fun upvoteTrack(party: PartyEntity, trackId: String) {
@@ -48,9 +52,9 @@ class QueueService {
 
     private fun syncRemoteQueue(party: PartyEntity)
     {
-        val user = party.accessEntity
+        val user = accessService.getMatchingToken(party.code);
         val remoteQueue =  musicPlayerService.getUsersQueue(user);
-        if(remoteQueue.isEmpty()) {
+        if(remoteQueue.isEmpty()) { //TODO warum nur wenn empty?
             musicPlayerService.addTrackToQueue(user, getNextTrack(party).trackId);
         }
     }
@@ -64,7 +68,7 @@ class QueueService {
                 highestScoreTrack = track
             }
         }
-        party.removeTrack(highestScoreTrack);
+        party.removeTrack(highestScoreTrack); //TODO der muss noch in eine art "locked" Zustand gespeichert werden
         return highestScoreTrack
     }
 }
