@@ -7,6 +7,7 @@ import de.spotifyvotingqueue.svqbackend.dtos.PartyCreatedDto
 import de.spotifyvotingqueue.svqbackend.services.QueueService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -30,25 +31,25 @@ class PartyController @Autowired constructor(
     }
 
     @PostMapping("/queue/{id}/track/{trackId}")
-    fun addTrackToQueue(@RequestParam("id") id: String, @RequestParam("trackId") trackId: String) {
+    fun addTrackToQueue(@PathVariable("id") id: String, @PathVariable("trackId") trackId: String) {
         val party = partyJpaRepository.findByCode(id) ?: throw Exception("Party not found")
         queueService.addTrackToQueue(party, trackId);
     }
 
     @PostMapping("/queue/{id}/track/{trackId}/upvote")
-    fun upvoteTrack(@RequestParam("id") id: String, @RequestParam("trackId") trackId: String) {
+    fun upvoteTrack(@PathVariable("id") id: String, @PathVariable("trackId") trackId: String) {
         val party = partyJpaRepository.findByCode(id) ?: throw Exception("Party not found")
         queueService.upvoteTrack(party, trackId);
     }
 
     @PostMapping("/queue/{id}/track/{trackId}/downvote")
-    fun downvoteTrack(@RequestParam("id") id: String, @RequestParam("trackId") trackId: String) {
+    fun downvoteTrack(@PathVariable("id") id: String, @PathVariable("trackId") trackId: String) {
         val party = partyJpaRepository.findByCode(id) ?: throw Exception("Party not found")
         queueService.downvoteTrack(party, trackId);
     }
 
     @GetMapping("/queue/{id}/tracks")
-    fun getQueue(@RequestParam("id") id: String): List<QueueTrack> {
+    fun getQueue(@PathVariable("id") id: String): List<QueueTrack> {
         val party = partyJpaRepository.findByCode(id) ?: throw Exception("Party not found")
         return queueService.getQueue(party);
     }
