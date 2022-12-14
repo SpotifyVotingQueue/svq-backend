@@ -4,6 +4,7 @@ import de.spotifyvotingqueue.svqbackend.database.model.PartyEntity
 import de.spotifyvotingqueue.svqbackend.database.PartyJpaRepository
 import de.spotifyvotingqueue.svqbackend.database.model.QueueTrack
 import de.spotifyvotingqueue.svqbackend.dtos.PartyCreatedDto
+import de.spotifyvotingqueue.svqbackend.dtos.TrackDto
 import de.spotifyvotingqueue.svqbackend.services.QueueService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,7 +19,8 @@ import kotlin.random.Random
 @RequestMapping("/api/v1/party")
 class PartyController @Autowired constructor(
     val partyJpaRepository: PartyJpaRepository,
-    val queueService: QueueService
+    val queueService: QueueService,
+    val trackController: TrackController
 ) {
     @PostMapping
     fun create(@RequestParam("accesscode") accesscode: String): PartyCreatedDto {
@@ -49,9 +51,9 @@ class PartyController @Autowired constructor(
     }
 
     @GetMapping("/queue/{id}/tracks")
-    fun getQueue(@PathVariable("id") id: String): List<QueueTrack> {
+    fun getQueue(@PathVariable("id") id: String): List<TrackDto> {
         val party = partyJpaRepository.findByCode(id) ?: throw Exception("Party not found")
-        return queueService.getQueue(party);
+        return queueService.getQueue(party).map { trackController.getTrack(it.trackId) };
     }
 }
 
