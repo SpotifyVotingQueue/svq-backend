@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 class TrackController {
 
     @Autowired
-    private lateinit var searchService: SearchService;
+    private lateinit var searchService: SearchService
 
     @Operation(summary = "Get information for a track")
     @GetMapping("/track/{id}")
@@ -32,7 +32,7 @@ class TrackController {
             .album
             .images
             .first { image -> image.height in (minHeight + 1) until maxHeight }
-            .url;
+            .url
     }
 
     @Operation(summary = "Search for tracks by name")

@@ -3,10 +3,8 @@ package de.spotifyvotingqueue.svqbackend.controllers
 import de.spotifyvotingqueue.svqbackend.dtos.Href
 import de.spotifyvotingqueue.svqbackend.dtos.TextDto
 import de.spotifyvotingqueue.svqbackend.dtos.UserDto
-import io.swagger.v3.core.util.Json
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
-import net.minidev.json.JSONArray
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.context.SecurityContextHolder

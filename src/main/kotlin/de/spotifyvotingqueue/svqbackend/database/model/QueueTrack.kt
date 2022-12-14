@@ -1,6 +1,5 @@
 package de.spotifyvotingqueue.svqbackend.database.model
 
-import se.michaelthelin.spotify.model_objects.specification.Track
 import java.util.*
 import javax.persistence.*
 
@@ -14,23 +13,23 @@ class QueueTrack(
     @Id
     @GeneratedValue
     @Column(nullable = false)
-    val id: UUID? = null;
+    val id: UUID? = null
 
     @Column(nullable = false)
-    var upvotes: Int = 1;
+    var upvotes: Int = 1
 
     @Column(nullable = false)
-    var downvotes: Int = 0;
+    var downvotes: Int = 0
 
     fun getScore(): Int {
-        return upvotes - downvotes;
+        return upvotes - downvotes
     }
 
     fun downvote() {
-        this.downvotes++;
+        this.downvotes++
     }
 
     fun upvote() {
-        this.upvotes++;
+        this.upvotes++
     }
 }

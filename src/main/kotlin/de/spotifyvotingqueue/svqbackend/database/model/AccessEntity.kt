@@ -1,4 +1,4 @@
-package de.spotifyvotingqueue.svqbackend.database.model;
+package de.spotifyvotingqueue.svqbackend.database.model
 
 import java.time.LocalDateTime
 import java.util.*
@@ -6,7 +6,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "access")
-public class AccessEntity(
+class AccessEntity(
     @Column val access_token: String,
     @Column val refresh_token: String,
     @Column val expires_in: Int,
@@ -14,5 +14,5 @@ public class AccessEntity(
 ) {
     @GeneratedValue
     @Id
-    var accessId: UUID? = null;
+    var accessId: UUID? = null
 }

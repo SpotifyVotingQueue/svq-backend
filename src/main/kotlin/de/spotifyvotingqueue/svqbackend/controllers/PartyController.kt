@@ -22,7 +22,7 @@ class PartyController @Autowired constructor(
             code = generatePartyCode(),
             hostAccessToken = accesscode,
         )
-        val createdParty = partyJpaRepository.save(party);
+        val createdParty = partyJpaRepository.save(party)
         return PartyCreatedDto(createdParty.code)
     }
 }

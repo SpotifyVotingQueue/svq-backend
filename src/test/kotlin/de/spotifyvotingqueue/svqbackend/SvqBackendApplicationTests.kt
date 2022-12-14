@@ -10,20 +10,21 @@ import org.springframework.boot.test.context.SpringBootTest
 class SvqBackendApplicationTests {
 
 	@Autowired
-	private var searchService: SearchService? = null;
+	private var searchService: SearchService? = null
+
 	@Test
 	fun contextLoads() {
 	}
 
 	@Test
 	fun testSearchForSong() {
-		val songName = "The Scientist";
-		val searchResult = searchService?.searchForSong(songName);
+		val songName = "The Scientist"
+		val searchResult = searchService?.searchForSong(songName)
 		if (searchResult == null) {
-			fail("Search result is null");
+			fail("Search result is null")
 		}
 		if (searchResult.isEmpty()) {
-			fail("Search result is empty");
+			fail("Search result is empty")
 		}
 	}
 
