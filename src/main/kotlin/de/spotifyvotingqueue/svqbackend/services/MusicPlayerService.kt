@@ -38,10 +38,10 @@ class MusicPlayerService {
     fun playTrack(track: Track) {
         val uris = JsonArray().apply {
             add(track.uri)
-        }
-        val token = accessService.getNewestAccessEntity()
-        spotifyApi.accessToken = token.access_token
-        spotifyApi.refreshToken = token.refresh_token
+        };
+        val token = accessService.getNewestAccessEntity();
+        spotifyApi.accessToken = token.accesstoken;
+        spotifyApi.refreshToken = token.refreshtoken;
         spotifyApi
             .startResumeUsersPlayback()
             .uris(uris)
@@ -50,9 +50,9 @@ class MusicPlayerService {
     }
 
     fun skipCurrentTrack() {
-        val token = accessService.getNewestAccessEntity()
-        spotifyApi.accessToken = token.access_token
-        spotifyApi.refreshToken = token.refresh_token
+        val token = accessService.getNewestAccessEntity();
+        spotifyApi.accessToken = token.accesstoken;
+        spotifyApi.refreshToken = token.refreshtoken;
         spotifyApi
             .skipUsersPlaybackToNextTrack()
             .build()

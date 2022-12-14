@@ -17,13 +17,13 @@ class SearchService {
     @Autowired
         lateinit var accessService: AccessTokenService
 
-    fun searchForSong(songName: String): List<Track>  {
-                logger.info("Client ID: " + spotifyApi.clientId)
-        logger.info("Client Secret: " + spotifyApi.clientSecret)
-        val token = accessService.getNewestAccessEntity()
-        spotifyApi.accessToken = token.access_token
-        spotifyApi.refreshToken = token.refresh_token
-        return spotifyApi
+        fun searchForSong(songName: String, partyId: String): List<Track>  {
+                logger.info("Client ID: " + spotifyApi.clientId);
+                logger.info("Client Secret: " + spotifyApi.clientSecret);
+                val token = accessService.getMatchingToken(partyId);
+                spotifyApi.accessToken = token.accesstoken;
+                spotifyApi.refreshToken = token.refreshtoken;
+                return spotifyApi
                         .searchTracks(songName)
                         .build()
                         .execute()
@@ -39,10 +39,10 @@ class SearchService {
         }
 
         fun searchForPlaylistSimplified(playlistName: String): List<PlaylistSimplified> {
-                val token = accessService.getNewestAccessEntity()
-            spotifyApi.accessToken = token.access_token
-            spotifyApi.refreshToken = token.refresh_token
-            return spotifyApi
+                val token = accessService.getNewestAccessEntity();
+                spotifyApi.accessToken = token.accesstoken;
+                spotifyApi.refreshToken = token.refreshtoken;
+                return spotifyApi
                         .searchPlaylists(playlistName)
                         .build()
                         .execute()
@@ -51,10 +51,10 @@ class SearchService {
         }
 
         fun getUsersFavoriteSongs(): List<Track> {
-                val token = accessService.getNewestAccessEntity()
-            spotifyApi.accessToken = token.access_token
-            spotifyApi.refreshToken = token.refresh_token
-            return spotifyApi
+                val token = accessService.getNewestAccessEntity();
+                spotifyApi.accessToken = token.accesstoken;
+                spotifyApi.refreshToken = token.refreshtoken;
+                return spotifyApi
                         .usersTopTracks
                         .build()
                         .execute()

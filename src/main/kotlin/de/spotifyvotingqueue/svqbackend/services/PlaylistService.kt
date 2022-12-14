@@ -18,9 +18,9 @@ class PlaylistService {
     lateinit var accessService: AccessTokenService
 
     fun getTrackById(id: String): Track {
-        val token = accessService.getNewestAccessEntity()
-        spotifyApi.accessToken = token.access_token
-        spotifyApi.refreshToken = token.refresh_token
+        val token = accessService.getNewestAccessEntity();
+        spotifyApi.accessToken = token.accesstoken;
+        spotifyApi.refreshToken = token.refreshtoken;
         return spotifyApi
             .getTrack(id)
             .build()
@@ -28,12 +28,24 @@ class PlaylistService {
     }
 
     fun getTracksForPlaylistSimplified(playlistSimplified: PlaylistSimplified): Paging<PlaylistTrack> {
-        val token = accessService.getNewestAccessEntity()
-        spotifyApi.accessToken = token.access_token
-        spotifyApi.refreshToken = token.refresh_token
+        val token = accessService.getNewestAccessEntity();
+        spotifyApi.accessToken = token.accesstoken;
+        spotifyApi.refreshToken = token.refreshtoken;
         return spotifyApi
             .getPlaylistsItems(playlistSimplified.id)
             .build()
             .execute()
+    }
+
+    fun getFourPlaylists(partyId: String): List<PlaylistSimplified> {
+        val token = accessService.getMatchingToken(partyId);
+        spotifyApi.accessToken = token.accesstoken;
+        spotifyApi.refreshToken = token.refreshtoken;
+        return spotifyApi.listOfCurrentUsersPlaylists
+            .build()
+            .execute()
+            .items
+            .toList()
+            .take(4);
     }
 }

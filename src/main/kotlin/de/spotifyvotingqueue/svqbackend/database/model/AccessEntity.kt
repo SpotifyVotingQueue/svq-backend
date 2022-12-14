@@ -6,10 +6,10 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "access")
-class AccessEntity(
-    @Column val access_token: String,
-    @Column val refresh_token: String,
-    @Column val expires_in: Int,
+public class AccessEntity(
+    @Column val accesstoken: String,
+    @Column val refreshtoken: String,
+    @Column val expiresin: Int,
     @Column val created: LocalDateTime
 ) {
     @GeneratedValue

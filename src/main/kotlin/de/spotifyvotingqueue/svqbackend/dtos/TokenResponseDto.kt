@@ -5,5 +5,5 @@ data class TokenResponseDto(
     val token_type: String,
     val scope: String?,
     val expires_in: Int,
-    val refresh_token: String
+    val refresh_token: String?
 )

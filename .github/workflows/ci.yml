@@ -15,6 +15,10 @@ on:
 
 permissions:
   contents: read
+  
+env:
+  HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  APP_NAME: ${{ 'svq-backend' }}
 
 jobs:
   build:
@@ -31,4 +35,23 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew build -x test
+  deploy:
+    name: Deploy to Heroku
+    runs-on: ubuntu-18.04
+    needs: build
+    steps:
+
+    # Clone the repository
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Build Docker image
+    - name: Docker build
+      run: docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
+
+    # Push the Docker image to Heroku Container Registry
+    - name: Publish
+      run: |
+        heroku container:push web -a $APP_NAME
+        heroku container:release web -a $APP_NAME
