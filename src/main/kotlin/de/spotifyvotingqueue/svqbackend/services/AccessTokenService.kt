@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 class AccessTokenService {
 
     @Autowired
-    private lateinit var accessRepository: AccessJpaRepository;
+    private lateinit var accessRepository: AccessJpaRepository
 
     @Autowired
     private lateinit var partyJpaRepository: PartyJpaRepository;
@@ -21,13 +21,14 @@ class AccessTokenService {
     @Autowired
     private lateinit var oAuthController: OAuthController;
 
-    public fun getNewestAccessEntity(): AccessEntity {
-        val newestToken = accessRepository.findFirstByOrderByCreatedDesc();
+    fun getNewestAccessEntity(): AccessEntity {
+        //TODO this method should work with different users, so the server can get access tokens for multiple parties
+        val newestToken = accessRepository.findFirstByOrderByCreatedDesc()
         newestToken?.let {
                 safeToken -> return if(isTokenExpired(safeToken)) refreshToken(safeToken.refreshtoken) else safeToken;
         }?:run {
             //TODO how should we deal with requests before the first token was created?
-            return refreshToken("");
+            return refreshToken("")
         }
     }
 
@@ -38,13 +39,13 @@ class AccessTokenService {
         if(oAuthController.redirect(code, "").statusCode.is2xxSuccessful) {
             return accessRepository.findFirstByOrderByCreatedDesc()!!;
         }
-        throw Exception("Could not refresh token");
+        throw Exception("Could not refresh token")
     }
 
     private fun refreshToken(refreshToken: String, partyId: String): AccessEntity {
         val newAccess: AccessEntity = oAuthController.refreshToken(refreshToken);
         partyJpaRepository.deleteByCode(partyId);
-        partyJpaRepository.save(PartyEntity(partyId, newAccess.accesstoken!!));
+        partyJpaRepository.save(PartyEntity(partyId, newAccess.accesstoken));
         return newAccess;
     }
 

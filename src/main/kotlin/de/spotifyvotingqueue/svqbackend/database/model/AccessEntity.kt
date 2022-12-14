@@ -1,4 +1,4 @@
-package de.spotifyvotingqueue.svqbackend.database.model;
+package de.spotifyvotingqueue.svqbackend.database.model
 
 import java.time.LocalDateTime
 import java.util.*
@@ -14,5 +14,5 @@ public class AccessEntity(
 ) {
     @GeneratedValue
     @Id
-    var accessId: UUID? = null;
+    var accessId: UUID? = null
 }

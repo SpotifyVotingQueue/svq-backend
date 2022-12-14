@@ -12,10 +12,10 @@ import se.michaelthelin.spotify.model_objects.specification.Track
 class PlaylistService {
 
     @Autowired
-    lateinit var spotifyApi: SpotifyApi;
+    lateinit var spotifyApi: SpotifyApi
 
     @Autowired
-    lateinit var accessService: AccessTokenService;
+    lateinit var accessService: AccessTokenService
 
     fun getTrackById(id: String): Track {
         val token = accessService.getNewestAccessEntity();
@@ -24,7 +24,7 @@ class PlaylistService {
         return spotifyApi
             .getTrack(id)
             .build()
-            .execute();
+            .execute()
     }
 
     fun getTracksForPlaylistSimplified(playlistSimplified: PlaylistSimplified): Paging<PlaylistTrack> {
@@ -34,7 +34,7 @@ class PlaylistService {
         return spotifyApi
             .getPlaylistsItems(playlistSimplified.id)
             .build()
-            .execute();
+            .execute()
     }
 
     fun getFourPlaylists(partyId: String): List<PlaylistSimplified> {

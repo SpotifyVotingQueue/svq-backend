@@ -31,7 +31,7 @@ class WebSecurityConfig {
             .build()
 
     @Bean
-    public fun corsConfigurationSource(): CorsConfigurationSource {
+    fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
         configuration.allowedOrigins = listOf("*")
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")

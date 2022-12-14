@@ -1,6 +1,5 @@
 package de.spotifyvotingqueue.svqbackend.controllers
 
-import antlr.Token
 import de.spotifyvotingqueue.svqbackend.database.AccessJpaRepository
 import de.spotifyvotingqueue.svqbackend.database.RedirectJpaRepository
 import de.spotifyvotingqueue.svqbackend.database.model.AccessEntity
@@ -12,11 +11,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.*
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestTemplate
 import java.net.URI
 import java.time.LocalDateTime
@@ -26,10 +21,10 @@ import java.util.*
 @RequestMapping("/api/v1")
 class OAuthController {
     @Value("\${spring.security.oauth2.client.registration.spotify.client-id}")
-    private val clientId: String? = null;
+    private val clientId: String? = null
 
     @Value("\${spring.security.oauth2.client.registration.spotify.client-secret}")
-    private val clientSecret: String? = null;
+    private val clientSecret: String? = null
 
     @Value("\${spring.security.oauth2.client.provider.spotify-provider.authorization-uri}")
     private val authorizationUri: String? = null;
@@ -47,7 +42,7 @@ class OAuthController {
     private val isDev: String? = null;
 
     @Autowired
-    private val accessrepository: AccessJpaRepository? = null;
+    private val accessrepository: AccessJpaRepository? = null
 
     @Autowired
     private lateinit var redirectrepository: RedirectJpaRepository;
@@ -79,8 +74,8 @@ class OAuthController {
         tokenheaders.add("Authorization", "Basic " + Base64.getEncoder().encodeToString(("$clientId:$clientSecret").toByteArray()));
         tokenheaders.add("Content-Type", "application/x-www-form-urlencoded");
 
-        var resttemplate: RestTemplate = RestTemplate();
-        var response: ResponseEntity<TokenResponseDto> = resttemplate.exchange(
+        val resttemplate = RestTemplate()
+        val response: ResponseEntity<TokenResponseDto> = resttemplate.exchange(
             URI("https://accounts.spotify.com/api/token"),
             HttpMethod.POST,
             HttpEntity(
