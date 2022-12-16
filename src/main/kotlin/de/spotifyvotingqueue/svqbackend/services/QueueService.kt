@@ -8,6 +8,7 @@ import de.spotifyvotingqueue.svqbackend.database.model.QueueTrack
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class QueueService {
@@ -49,7 +50,7 @@ class QueueService {
             .findAll()
             .forEach(this::syncRemoteQueue);
     }
-
+    @Transactional
     private fun syncRemoteQueue(party: PartyEntity)
     {
         val user = accessService.getMatchingToken(party.code);
