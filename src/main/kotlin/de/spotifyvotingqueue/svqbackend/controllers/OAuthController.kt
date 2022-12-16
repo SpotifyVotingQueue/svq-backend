@@ -54,7 +54,7 @@ class OAuthController {
 
         var redirectUriSpotify: String = "${backendUri}/api/v1/loggedIn/redirect";
 
-        var scopes: String = "user-read-playback-state user-modify-playback-state user-read-currently-playing playlist-read-private playlist-read-collaborative"
+        var scopes: String = "user-read-playback-state%20user-modify-playback-state%20user-read-currently-playing%20playlist-read-private%20playlist-read-collaborative"
 
         var uri: URI = URI.create("${authorizationUri}?response_type=code&client_id=${clientId}&scope=${scopes}&redirect_uri=${redirectUriSpotify}&state=${session}");
         var headers: HttpHeaders = HttpHeaders();
