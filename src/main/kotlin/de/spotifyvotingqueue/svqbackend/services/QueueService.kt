@@ -54,7 +54,7 @@ class QueueService {
     {
         val user = accessService.getMatchingToken(party.code);
         val remoteQueue =  musicPlayerService.getUsersQueue(user);
-        if(remoteQueue.isEmpty()) { //TODO warum nur wenn empty?
+        if(remoteQueue.isEmpty() && party.queueTracks.isNotEmpty()) {
             musicPlayerService.addTrackToQueue(user, getNextTrack(party).trackId);
         }
     }
