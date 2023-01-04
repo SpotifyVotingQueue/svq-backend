@@ -16,8 +16,12 @@ class PartyEntity(
     @JoinColumn(name = "access_entity_access_token")
     lateinit var accessEntity: AccessEntity
 
-    fun addTrack(trackId: String) {
-        queueTracks.add(QueueTrack(trackId, this))
+    fun addTrack(track: QueueTrack): Boolean {
+        if (queueTracks.any { it.trackId == track.trackId }) {
+            return false;
+        }
+        queueTracks.add(track);
+        return true;
     }
 
     fun removeTrack(track: QueueTrack) {

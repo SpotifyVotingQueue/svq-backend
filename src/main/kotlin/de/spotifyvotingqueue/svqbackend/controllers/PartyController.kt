@@ -3,6 +3,7 @@ package de.spotifyvotingqueue.svqbackend.controllers
 import de.spotifyvotingqueue.svqbackend.database.model.PartyEntity
 import de.spotifyvotingqueue.svqbackend.database.PartyJpaRepository
 import de.spotifyvotingqueue.svqbackend.database.model.QueueTrack
+import de.spotifyvotingqueue.svqbackend.dtos.AddTrackResponseDto
 import de.spotifyvotingqueue.svqbackend.dtos.PartyCreatedDto
 import de.spotifyvotingqueue.svqbackend.dtos.TrackDto
 import de.spotifyvotingqueue.svqbackend.services.QueueService
@@ -33,9 +34,10 @@ class PartyController @Autowired constructor(
     }
 
     @PostMapping("/queue/{id}/track/{trackId}")
-    fun addTrackToQueue(@PathVariable("id") id: String, @PathVariable("trackId") trackId: String) {
+    fun addTrackToQueue(@PathVariable("id") id: String, @PathVariable("trackId") trackId: String): AddTrackResponseDto {
         val party = partyJpaRepository.findByCode(id) ?: throw Exception("Party not found")
-        queueService.addTrackToQueue(party, trackId);
+        val newTrack: Boolean = queueService.addTrackToQueue(party, trackId);
+        return AddTrackResponseDto(newTrack);
     }
 
     @PostMapping("/queue/{id}/track/{trackId}/upvote")

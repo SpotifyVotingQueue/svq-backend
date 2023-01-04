@@ -25,9 +25,14 @@ class QueueService {
     @Autowired
     private lateinit var accessService: AccessTokenService;
 
-    fun addTrackToQueue(party: PartyEntity, trackId: String) {
-        party.addTrack(trackId);
+    fun addTrackToQueue(party: PartyEntity, trackId: String): Boolean {
+        val track = QueueTrack(trackId, party);
+        if (!party.addTrack(track)) {
+            return false;
+        }
         partyJpaRepository.save(party);
+        queueRepository.save(track);
+        return true;
     }
 
     fun upvoteTrack(party: PartyEntity, trackId: String) {
@@ -41,10 +46,10 @@ class QueueService {
     }
 
     fun getQueue(party: PartyEntity): List<QueueTrack> {
-        return party.queueTracks.sortedBy { it.getScore() }
+        return queueRepository.findAllById(mutableListOf(party.partyId)).sortedBy { it.getScore() };
     }
 
-    @Scheduled(cron = "*/10 * * * * *")
+//    @Scheduled(cron = "*/10 * * * * *")
     private fun syncRemoteQueueForAllParties() {
         partyJpaRepository
             .findAll()
