@@ -5,6 +5,7 @@ import de.spotifyvotingqueue.svqbackend.database.QueueTrackJpaRepository
 import de.spotifyvotingqueue.svqbackend.database.model.PartyEntity
 import de.spotifyvotingqueue.svqbackend.database.model.QueueTrack
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -22,6 +23,9 @@ class QueueService {
 
     @Autowired
     private lateinit var accessService: AccessTokenService;
+
+    @Autowired
+    private lateinit var searchService: SearchService;
 
     fun addTrackToQueue(party: PartyEntity, trackId: String): Boolean {
         val track = QueueTrack(trackId, party);
@@ -48,7 +52,7 @@ class QueueService {
         return if(withoutLocked) queue.filter { !it.locked }.sortedBy { it.getScore() } else queue.sortedBy { it.locked; it.getScore() }
     }
 
-//    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     private fun syncRemoteQueueForAllParties() {
         partyJpaRepository
             .findAll()
@@ -61,7 +65,7 @@ class QueueService {
         val remoteQueue =  musicPlayerService.getUsersQueue(user);
         if(remoteQueue.isEmpty() && party.queueTracks.isNotEmpty()) {
             val track = getNextTrack(party);
-            musicPlayerService.addTrackToQueue(user, track.trackId);
+            musicPlayerService.addTrackToQueue(user, searchService.getSong(track.trackId).uri);
             track.locked = true;
             queueRepository.save(track);
         }

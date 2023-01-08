@@ -9,7 +9,7 @@ class PartyEntity(
     @Column @Id val code: String,
     @Column val hostAccessToken: String,
 ) {
-    @OneToMany(mappedBy = "partyEntity") var queueTracks = mutableListOf<QueueTrack>();
+    @OneToMany(mappedBy = "partyEntity", fetch = FetchType.EAGER) var queueTracks = mutableListOf<QueueTrack>();
 
     @OneToOne
     @JoinColumn(name = "access_entity_access_token")
