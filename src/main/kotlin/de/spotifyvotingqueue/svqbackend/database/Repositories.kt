@@ -12,7 +12,9 @@ interface PartyJpaRepository : JpaRepository<PartyEntity, UUID> {
     fun deleteByCode(partyId: String)
 }
 
-interface QueueTrackJpaRepository : JpaRepository<QueueTrack, UUID>
+interface QueueTrackJpaRepository : JpaRepository<QueueTrack, UUID> {
+    fun findAllByPartyEntityCode(code: String): List<QueueTrack>
+}
 
 interface AccessJpaRepository : JpaRepository<AccessEntity, UUID> {
     fun findFirstByOrderByCreatedDesc(): AccessEntity?

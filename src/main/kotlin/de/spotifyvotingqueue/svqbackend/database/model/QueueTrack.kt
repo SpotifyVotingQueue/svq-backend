@@ -6,7 +6,7 @@ import javax.persistence.*
 @Entity
 class QueueTrack(
     @Column(nullable = false) val trackId: String,
-    @ManyToOne @JoinColumn(name = "party_entity_party_id")
+    @ManyToOne @JoinColumn(name = "party_entity_code")
     var partyEntity: PartyEntity? = null,
 ) {
 

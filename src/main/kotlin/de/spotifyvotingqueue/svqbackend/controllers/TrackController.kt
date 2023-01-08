@@ -44,4 +44,15 @@ class TrackController {
             .searchForSong(query, partyId)
             .map { TrackDto(it.id, it.name, it.artists.map { artist -> artist.name }, it.album.images[0].url) }
     }
+
+    @Operation(summary = "Get recommended songs")
+    @GetMapping("/recommendations")
+    @ResponseBody
+    fun getRecommendations(@RequestParam @NotNull partyId: String): List<TrackDto> {
+        return searchService.getSongs(
+            searchService.getRecommendations(partyId).map { it.id },
+            partyId
+        ).map { TrackDto(it.id, it.name, it.artists.map { artist -> artist.name }, it.album.images[0].url) }
+
+    }
 }

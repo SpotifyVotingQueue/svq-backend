@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service
 import se.michaelthelin.spotify.SpotifyApi
 import se.michaelthelin.spotify.model_objects.specification.PlaylistSimplified
 import se.michaelthelin.spotify.model_objects.specification.Track
+import se.michaelthelin.spotify.model_objects.specification.TrackSimplified
 
 @Service
 class SearchService {
@@ -61,4 +62,30 @@ class SearchService {
                         .items
                         .asList()
         }
+
+    fun getRecommendations(partyId: String): List<TrackSimplified> {
+        val token = accessService.getMatchingToken(partyId);
+        spotifyApi.accessToken = token.accesstoken;
+        spotifyApi.refreshToken = token.refreshtoken;
+        return spotifyApi
+                .recommendations
+                .seed_artists("")
+                .seed_genres("pop,dance,edm")
+                .seed_tracks("")
+                .build()
+                .execute()
+                .tracks
+                .asList();
+    }
+
+    fun getSongs(ids: List<String>, partyId: String): List<Track> {
+        val token = accessService.getMatchingToken(partyId);
+        spotifyApi.accessToken = token.accesstoken;
+        spotifyApi.refreshToken = token.refreshtoken;
+        return spotifyApi
+                .getSeveralTracks(ids.joinToString(","))
+                .build()
+                .execute()
+                .asList();
+    }
 }

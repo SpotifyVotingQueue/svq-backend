@@ -46,7 +46,7 @@ class QueueService {
     }
 
     fun getQueue(party: PartyEntity): List<QueueTrack> {
-        return queueRepository.findAllById(mutableListOf(party.partyId)).sortedBy { it.getScore() };
+        return queueRepository.findAllByPartyEntityCode(party.code).sortedBy { it.getScore() };
     }
 
 //    @Scheduled(cron = "*/10 * * * * *")

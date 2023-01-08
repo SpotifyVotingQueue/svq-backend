@@ -6,10 +6,9 @@ import javax.persistence.*
 @Entity
 @Table(name = "party")
 class PartyEntity(
-    @Column val code: String,
+    @Column @Id val code: String,
     @Column val hostAccessToken: String,
 ) {
-    @GeneratedValue @Id var partyId: UUID? = null
     @OneToMany(mappedBy = "partyEntity") var queueTracks = mutableListOf<QueueTrack>();
 
     @OneToOne
