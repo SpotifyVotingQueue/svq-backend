@@ -21,6 +21,9 @@ class QueueTrack(
     @Column(nullable = false)
     var downvotes: Int = 0
 
+    @Column(nullable = false)
+    var locked: Boolean = false
+
     fun getScore(): Int {
         return upvotes - downvotes
     }

@@ -2,7 +2,6 @@ package de.spotifyvotingqueue.svqbackend.controllers
 
 import de.spotifyvotingqueue.svqbackend.database.model.PartyEntity
 import de.spotifyvotingqueue.svqbackend.database.PartyJpaRepository
-import de.spotifyvotingqueue.svqbackend.database.model.QueueTrack
 import de.spotifyvotingqueue.svqbackend.dtos.AddTrackResponseDto
 import de.spotifyvotingqueue.svqbackend.dtos.PartyCreatedDto
 import de.spotifyvotingqueue.svqbackend.dtos.TrackDto
@@ -53,9 +52,15 @@ class PartyController @Autowired constructor(
     }
 
     @GetMapping("/queue/{id}/tracks")
-    fun getQueue(@PathVariable("id") id: String): List<TrackDto> {
+    fun getQueue(@PathVariable("id") id: String, @RequestParam("withoutLocked", defaultValue = "false") withoutLocked: String): List<TrackDto> {
         val party = partyJpaRepository.findByCode(id) ?: throw Exception("Party not found")
-        return queueService.getQueue(party).map { trackController.getTrack(it.trackId) };
+        return queueService.getQueue(party, withoutLocked.toBoolean()).map { trackController.getTrack(it.trackId) };
+    }
+
+    @GetMapping("/queue/{id}/tracks/locked")
+    fun getLockedTrack(@PathVariable("id") id: String): TrackDto? {
+        val party = partyJpaRepository.findByCode(id) ?: throw Exception("Party not found")
+        return queueService.getLockedTrack(party)?.let { trackController.getTrack(it.trackId) };
     }
 }
 

@@ -2,11 +2,9 @@ package de.spotifyvotingqueue.svqbackend.services
 
 import de.spotifyvotingqueue.svqbackend.database.PartyJpaRepository
 import de.spotifyvotingqueue.svqbackend.database.QueueTrackJpaRepository
-import de.spotifyvotingqueue.svqbackend.database.model.AccessEntity
 import de.spotifyvotingqueue.svqbackend.database.model.PartyEntity
 import de.spotifyvotingqueue.svqbackend.database.model.QueueTrack
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -45,8 +43,9 @@ class QueueService {
         track?.downvote()
     }
 
-    fun getQueue(party: PartyEntity): List<QueueTrack> {
-        return queueRepository.findAllByPartyEntityCode(party.code).sortedBy { it.getScore() };
+    fun getQueue(party: PartyEntity, withoutLocked: Boolean): List<QueueTrack> {
+        val queue = queueRepository.findAllByPartyEntityCode(party.code);
+        return if(withoutLocked) queue.filter { !it.locked }.sortedBy { it.getScore() } else queue.sortedBy { it.locked; it.getScore() }
     }
 
 //    @Scheduled(cron = "*/10 * * * * *")
@@ -61,7 +60,10 @@ class QueueService {
         val user = accessService.getMatchingToken(party.code);
         val remoteQueue =  musicPlayerService.getUsersQueue(user);
         if(remoteQueue.isEmpty() && party.queueTracks.isNotEmpty()) {
-            musicPlayerService.addTrackToQueue(user, getNextTrack(party).trackId);
+            val track = getNextTrack(party);
+            musicPlayerService.addTrackToQueue(user, track.trackId);
+            track.locked = true;
+            queueRepository.save(track);
         }
     }
 
@@ -76,5 +78,9 @@ class QueueService {
         }
         party.removeTrack(highestScoreTrack); //TODO der muss noch in eine art "locked" Zustand gespeichert werden
         return highestScoreTrack
+    }
+
+    fun getLockedTrack(party: PartyEntity): QueueTrack? {
+        return queueRepository.findByLocked(true).firstOrNull();
     }
 }

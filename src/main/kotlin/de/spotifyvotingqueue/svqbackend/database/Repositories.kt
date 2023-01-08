@@ -14,6 +14,7 @@ interface PartyJpaRepository : JpaRepository<PartyEntity, UUID> {
 
 interface QueueTrackJpaRepository : JpaRepository<QueueTrack, UUID> {
     fun findAllByPartyEntityCode(code: String): List<QueueTrack>
+    fun findByLocked(locked: Boolean): List<QueueTrack>
 }
 
 interface AccessJpaRepository : JpaRepository<AccessEntity, UUID> {
