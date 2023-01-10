@@ -20,6 +20,13 @@ class PlaylistController {
     @GetMapping("/playlists")
     @ResponseBody
     fun getPlaylists(@RequestParam @NotNull partyId: String): List<PlaylistDto>   {
-        return playlistService.getFourPlaylists(partyId).map { PlaylistDto(it.name, it.owner.displayName, it.tracks.total, Href(it.images[0].url)) }
+        return playlistService.getFourPlaylists(partyId).map { PlaylistDto(it.name, it.owner.displayName, it.tracks.total, Href(it.images[0].url), it.id) }
     }
+
+    @Operation(summary = "Add all tracks of a playlist to the party")
+    @PostMapping("/queue/{id}/playlist/{playlistId}")
+    fun addPlaylistToQueue(@PathVariable id: String, @PathVariable playlistId: String) {
+        playlistService.addPlaylistToQueue(id, playlistId)
+    }
+
 }

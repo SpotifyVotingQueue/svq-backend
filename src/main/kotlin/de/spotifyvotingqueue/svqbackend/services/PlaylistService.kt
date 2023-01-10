@@ -1,5 +1,6 @@
 package de.spotifyvotingqueue.svqbackend.services
 
+import de.spotifyvotingqueue.svqbackend.database.PartyJpaRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import se.michaelthelin.spotify.SpotifyApi
@@ -17,6 +18,12 @@ class PlaylistService {
     @Autowired
     lateinit var accessService: AccessTokenService
 
+    @Autowired
+    lateinit var queueService: QueueService
+
+    @Autowired
+    lateinit var partyJpaRepository: PartyJpaRepository
+
     fun getTrackById(id: String): Track {
         val token = accessService.getNewestAccessEntity();
         spotifyApi.accessToken = token.accesstoken;
@@ -27,12 +34,12 @@ class PlaylistService {
             .execute()
     }
 
-    fun getTracksForPlaylistSimplified(playlistSimplified: PlaylistSimplified): Paging<PlaylistTrack> {
-        val token = accessService.getNewestAccessEntity();
+    fun getTracksForPlaylistSimplified(playlistId: String, partyId: String): Paging<PlaylistTrack> {
+        val token = accessService.getMatchingToken(partyId);
         spotifyApi.accessToken = token.accesstoken;
         spotifyApi.refreshToken = token.refreshtoken;
         return spotifyApi
-            .getPlaylistsItems(playlistSimplified.id)
+            .getPlaylistsItems(playlistId)
             .build()
             .execute()
     }
@@ -47,5 +54,12 @@ class PlaylistService {
             .items
             .toList()
             .take(4);
+    }
+
+    fun addPlaylistToQueue(id: String, playlistId: String) {
+        val party = partyJpaRepository.findByCode(id) ?: throw Exception("Party not found");
+        getTracksForPlaylistSimplified(playlistId, id).items.forEach {
+            queueService.addTrackToQueue(party, it.track.id);
+        }
     }
 }

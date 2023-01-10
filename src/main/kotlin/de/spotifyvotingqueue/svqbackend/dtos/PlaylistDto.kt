@@ -4,5 +4,6 @@ data class PlaylistDto(
     val name: String,
     val owner: String,
     val numberTracks: Int,
-    val cover: Href
+    val cover: Href,
+    val id: String
 )
