@@ -1,10 +1,14 @@
 package de.spotifyvotingqueue.svqbackend.services
 
+import de.spotifyvotingqueue.svqbackend.controllers.SocketController
 import de.spotifyvotingqueue.svqbackend.database.PartyJpaRepository
 import de.spotifyvotingqueue.svqbackend.database.QueueTrackJpaRepository
 import de.spotifyvotingqueue.svqbackend.database.model.PartyEntity
 import de.spotifyvotingqueue.svqbackend.database.model.QueueTrack
+import de.spotifyvotingqueue.svqbackend.dtos.StateDto
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.messaging.simp.SimpMessagingTemplate
+import org.springframework.messaging.simp.annotation.support.SimpAnnotationMethodMessageHandler
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -27,6 +31,10 @@ class QueueService {
     @Autowired
     private lateinit var searchService: SearchService;
 
+    @Autowired
+    private lateinit var socket: SocketController;
+
+
     fun addTrackToQueue(party: PartyEntity, trackId: String): Boolean {
         val track = QueueTrack(trackId, party);
         if (!party.addTrack(track)) {
@@ -34,6 +42,7 @@ class QueueService {
         }
         partyJpaRepository.save(party);
         queueRepository.save(track);
+        socket.sendState(StateDto(queueChanged = true, songChanged = false))
         return true;
     }
 
@@ -63,7 +72,7 @@ class QueueService {
     {
         val user = accessService.getMatchingToken(party.code);
         val remoteQueue =  musicPlayerService.getUsersQueue(user);
-        if(remoteQueue.isEmpty() && party.queueTracks.isNotEmpty()) {
+        if(/*remoteQueue.isEmpty() && */ party.queueTracks.isNotEmpty()) {
             val track = getNextTrack(party);
             musicPlayerService.addTrackToQueue(user, searchService.getSong(track.trackId).uri);
             track.locked = true;

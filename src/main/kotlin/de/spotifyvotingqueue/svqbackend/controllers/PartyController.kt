@@ -4,6 +4,7 @@ import de.spotifyvotingqueue.svqbackend.database.model.PartyEntity
 import de.spotifyvotingqueue.svqbackend.database.PartyJpaRepository
 import de.spotifyvotingqueue.svqbackend.dtos.AddTrackResponseDto
 import de.spotifyvotingqueue.svqbackend.dtos.PartyCreatedDto
+import de.spotifyvotingqueue.svqbackend.dtos.StateDto
 import de.spotifyvotingqueue.svqbackend.dtos.TrackDto
 import de.spotifyvotingqueue.svqbackend.services.QueueService
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +21,8 @@ import kotlin.random.Random
 class PartyController @Autowired constructor(
     val partyJpaRepository: PartyJpaRepository,
     val queueService: QueueService,
-    val trackController: TrackController
+    val trackController: TrackController,
+    val socket: SocketController
 ) {
     @PostMapping
     fun create(@RequestParam("accesscode") accesscode: String): PartyCreatedDto {
@@ -36,6 +38,9 @@ class PartyController @Autowired constructor(
     fun addTrackToQueue(@PathVariable("id") id: String, @PathVariable("trackId") trackId: String): AddTrackResponseDto {
         val party = partyJpaRepository.findByCode(id) ?: throw Exception("Party not found")
         val newTrack: Boolean = queueService.addTrackToQueue(party, trackId);
+        if (newTrack) {
+            socket.sendState(StateDto(queueChanged = true, songChanged = false))
+        }
         return AddTrackResponseDto(newTrack);
     }
 
